@@ -1,7 +1,7 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Hamburger({ handleBurger }) {
+export default function Hamburger() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Function to handle click on the hamburger icon
@@ -11,8 +11,24 @@ export default function Hamburger({ handleBurger }) {
     console.log(isOpen);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 640) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add event listener to window resize event
+    window.addEventListener("resize", handleResize);
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className="w-10 h-10 relative cursor-pointer" onClick={handleClick}>
+    <div className="w-8 h-8 relative cursor-pointer" onClick={handleClick}>
       <span
         className={`w-full bg-white h-1 block absolute top-1/2 left-1/2 transform  ${
           isOpen

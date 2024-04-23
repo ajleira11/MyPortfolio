@@ -1,6 +1,6 @@
 import React from "react";
 import Hamburger from "../common/Hamburger";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,11 +9,27 @@ export default function Navbar() {
   const toggleNav = () => {
     // Toggle the value of isOpen when the icon is clicked
     setIsOpen(!isOpen);
-    console.log(isOpen);
+    // console.log(isOpen);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 640) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add event listener to window resize event
+    window.addEventListener("resize", handleResize);
+
+    // Remove event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <nav className="relative flex items-center justify-between pt-8 mx-10">
+    <nav className="relative flex items-center justify-between pt-8 mx-10 z-10">
       <a
         href="/"
         className="text-3xl font-semibold decoration-0 font-color-text"
@@ -24,7 +40,14 @@ export default function Navbar() {
         <div className="flex sm:hidden" onClick={toggleNav}>
           <Hamburger></Hamburger>
         </div>
-        <ul className="hidden gap-5 md:gap-12 sm:flex">
+        <ul
+          className={`gap-5 md:gap-12 sm:flex ${
+            isOpen
+              ? "flex absolute flex-col bg-black z-0 top-20 -right-5 rounded-lg p-1 items-center gap-1.5"
+              : "hidden"
+          }`}
+          // style={{ backgroundColor: "rgba(25, 55, 109, 0.9)" }}
+        >
           <li>
             <a href="#about" className="text-2xl">
               About
