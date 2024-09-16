@@ -43,7 +43,7 @@ export default function Navbar() {
         <ul
           className={`gap-5 md:gap-12 sm:flex ${
             isOpen
-              ? "flex absolute flex-col bg-black z-0 top-20 -right-5 rounded-lg p-1 items-center gap-1.5"
+              ? "flex flex-col absolute top-20 -right-0 z-50 rounded-lg py-4 px-7 items-center bg-color-menu"
               : "hidden"
           }`}
           // style={{ backgroundColor: "rgba(25, 55, 109, 0.9)" }}
